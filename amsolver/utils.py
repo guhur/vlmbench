@@ -1,6 +1,7 @@
 #Modified From the rlbench: https://github.com/stepjam/RLBench
 import importlib
 import pickle
+import os
 from os import listdir
 from os.path import join, exists
 from typing import List
@@ -67,15 +68,14 @@ def get_stored_demos(amount: int, image_paths: bool, dataset_root: str,
             'You asked for %d examples, but only %d were available.' % (
                 amount, len(examples)))
     if episode_number is None:
-        selected_examples = np.random.choice(examples, amount, replace=False)
+        selected_examples = np.random.choice(examples, amount, replace=False).tolist()
     else:
         # selected_examples = [natsorted(examples)[episode_number]]
         # for e in natsorted(examples):
         #     if f"episode{episode_number}"==e:
         #         selected_examples = [e]
         #         break
-        selected_examples = [episode_number]
-    import os
+        selected_examples = [f"episode{episode_number}"]
     # Process these examples (e.g. loading observations)
     demos = []
     for example in selected_examples:
